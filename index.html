@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Promo Pulsa Gratis — Pasundan Wrappindo</title>
+
   <style>
     body{font-family:Inter,Arial,sans-serif;margin:0;background:#002b57;color:#fff}
     header{background:linear-gradient(90deg,#e53935,#ffc107,#1e88e5);padding:28px;text-align:center;color:white}
@@ -41,7 +42,7 @@
       <input type="text" id="nama" name="nama" required />
 
       <label for="hp">Nomor HP Aktif</label>
-      <input type="tel" id="hp" name="hp" pattern="[0-9]+" maxlength="15" required />
+      <input type="tel" id="hp" name="hp" maxlength="15" required />
 
       <button type="submit">Daftar Promo Pulsa Gratis</button>
     </form>
@@ -59,51 +60,48 @@
   <div class="footer">© 2025 Pasundan Wrappindo — Cutting Sticker & Branding</div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwv9FeY4pP7SW1ucuO5M_0OxS6AivyjstHdYZBwE4SEa_AsAox4AFJkepesJf0_cVM-/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwaAWkzC9syDWNr03VNnzsnA70-5Wm-w8ZIdmWkvpH2jZgqbbe0GAAPYVwYjjWqKXLz/exec";
 
     document.getElementById("formPulsa").addEventListener("submit", async function(e){
       e.preventDefault();
 
-      const data = {
-        nama: document.getElementById("nama").value.trim(),
-        hp: document.getElementById("hp").value.trim()
-      };
+      let status = document.getElementById("status");
+      status.innerText = "Mengirim...";
 
-      document.getElementById("status").innerText = "Mengirim...";
+      const form = document.getElementById("formPulsa");
+      const formData = new FormData(form);  // Anti CORS
 
-      try{
+      try {
         const res = await fetch(SCRIPT_URL, {
           method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify(data)
+          body: formData
         });
 
         const hasil = await res.json();
 
-        if(hasil.status === "duplicate"){
-          document.getElementById("status").innerText = "Nomor sudah pernah daftar.";
+        if (hasil.status === "duplicate") {
+          status.innerText = "Nomor sudah pernah terdaftar.";
           return;
         }
 
-        if(hasil.status !== "ok"){
-          document.getElementById("status").innerText = "Gagal mengirim.";
+        if (hasil.status !== "ok") {
+          status.innerText = "Gagal mengirim.";
           return;
         }
 
-        document.getElementById("status").innerText = "Pendaftaran berhasil!";
+        status.innerText = "Pendaftaran berhasil!";
 
         const pesanWA = encodeURIComponent(
           `Aku baru daftar *Promo Pulsa Gratis Mingguan* dari Pasundan Wrappindo!\n\nDaftar di sini:\n${window.location.href}`
         );
 
         window.open(`https://wa.me/?text=${pesanWA}`, "_blank");
-        document.getElementById("formPulsa").reset();
+        form.reset();
 
-      }catch(err){
-        document.getElementById("status").innerText = "Gagal mengirim. Coba lagi.";
+      } catch (err) {
+        status.innerText = "Gagal mengirim. Coba lagi.";
       }
     });
   </script>
 </body>
 </html>
-
