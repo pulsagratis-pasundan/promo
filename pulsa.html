@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Promo Pulsa Gratis — Pasundan Wrappindo</title>
+  <style>
+    body{font-family:Inter,Arial,sans-serif;margin:0;background:#002b57;color:#fff}
+    header{background:linear-gradient(90deg,#e53935,#ffc107,#1e88e5);padding:28px;text-align:center;color:white}
+    header h1{margin:0;font-size:32px;font-weight:800;text-shadow:0 0 8px rgba(0,0,0,.5)}
+    header p{margin-top:8px;font-size:18px;color:#fff;font-weight:300}
+
+    .container{max-width:520px;margin:32px auto;background:#031a33;padding:28px;border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.4);border:1px solid #1e88e5}
+
+    label{display:block;margin:14px 0 6px;font-weight:600;font-size:15px;color:#ffc107}
+    input{width:100%;padding:12px;border:1px solid #ffc107;border-radius:8px;font-size:15px;background:#000;color:#fff}
+
+    button{margin-top:22px;width:100%;padding:14px;font-size:17px;border:0;border-radius:10px;background:#ffc107;color:#000;
+      cursor:pointer;font-weight:700;box-shadow:0 0 10px rgba(255,193,7,.6)}
+    button:hover{background:#e0ac06}
+
+    .footer{text-align:center;margin:40px 0;color:#ffc107;font-size:14px}
+
+    @media(max-width:600px){.container{margin:20px;padding:20px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pulsa Gratis Mingguan</h1>
+    <p>Program Resmi Pasundan Wrappindo — Isi Data & Bagikan</p>
+    <p><strong>10 Pemenang tiap minggu @10.000</strong></p>
+  </header>
+
+  <div class="container">
+    <form id="formPulsa">
+      <label for="nama">Nama Lengkap</label>
+      <input type="text" id="nama" name="nama" required />
+
+      <label for="hp">Nomor HP Aktif</label>
+      <input type="tel" id="hp" name="hp" required />
+
+      <button type="submit">Daftar Promo Pulsa Gratis</button>
+    </form>
+    <p id="status"></p>
+  </div>
+
+  <div style="text-align:center;margin-top:32px;">
+    <a href="https://wa.me/628000000000" target="_blank">
+      <img src="https://via.placeholder.com/360x200?text=Iklan+Promo+Pasundan+Wrappindo" 
+        style="width:100%;max-width:360px;border-radius:12px;box-shadow:0 0 10px rgba(30,136,229,.5);cursor:pointer;">
+    </a>
+  </div>
+
+  <div class="footer">© 2025 Pasundan Wrappindo — Cutting Sticker & Branding</div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwtswqmHqUUUggNPjAXrTTn_ISTNq0mcPWJKwou-I_haVp-dATfYpy8En5DMxYB1HZH/exec";
+
+    document.getElementById("formPulsa").addEventListener("submit", async function(e){
+      e.preventDefault();
+
+      const data = {
+        nama: document.getElementById("nama").value,
+        hp: document.getElementById("hp").value
+      };
+
+      document.getElementById("status").innerText = "Mengirim...";
+
+      try{
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify(data)
+        });
+
+        document.getElementById("status").innerText = "Pendaftaran berhasil!";
+
+        const pesanWA = encodeURIComponent(
+          `Aku baru daftar *Promo Pulsa Gratis Mingguan* dari Pasundan Wrappindo!\nDaftar gratis di link berikut:\n${window.location.href}`
+        );
+        window.open(`https://wa.me/?text=${pesanWA}`, "_blank");
+        document.getElementById("formPulsa").reset();
+
+      }catch(err){
+        document.getElementById("status").innerText = "Gagal mengirim. Coba lagi.";
+      }
+    });
+  </script>
+</body>
+</html>
